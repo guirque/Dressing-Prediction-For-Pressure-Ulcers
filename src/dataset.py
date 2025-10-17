@@ -103,3 +103,30 @@ class PressureUlcers(Dataset):
 
     def __len__(self):
         return len(self.X)
+
+
+import pandas as pd
+import json
+
+
+def get_class_map(json_mapping_path):
+    """
+
+        ## Returns
+        List of class names. Each index represents the corresponding class id.
+        First index (0) contains None and is meant to represent no class.
+
+        ## Args
+
+        - *json_mapping_path*: 
+            path to .json file that maps class names.  It should have the following format:  
+            `{"categories": [{"id": 1, "name": "class_name"}, ...], ...}`
+    """
+    class_map = [None]
+
+    with open(json_mapping_path, 'r') as file:
+        class_list = json.loads(file.read())['categories']
+        for class_mapping in class_list:
+            class_map.append(class_mapping['name'])
+
+    return class_map
